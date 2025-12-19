@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import one.digitalinnovation.gof.model.Cliente;
-import one.digitalinnovation.gof.model.ClienteRepository;
+import one.digitalinnovation.gof.repository.ClienteRepository;
 import one.digitalinnovation.gof.model.Endereco;
-import one.digitalinnovation.gof.model.EnderecoRepository;
+import one.digitalinnovation.gof.repository.EnderecoRepository;
 import one.digitalinnovation.gof.service.ClienteService;
 import one.digitalinnovation.gof.service.ViaCepService;
 
@@ -56,7 +56,14 @@ public class ClienteServiceImpl implements ClienteService {
 		// Buscar Cliente por ID, caso exista:
 		Optional<Cliente> clienteBd = clienteRepository.findById(id);
 		if (clienteBd.isPresent()) {
-			salvarClienteComCep(cliente);
+			// Obter o cliente gerenciado pelo JPA.
+			Cliente clienteParaAtualizar = clienteBd.get();
+			// Atualizar os campos com os dados recebidos na requisição.
+			clienteParaAtualizar.setNome(cliente.getNome());
+			clienteParaAtualizar.setEndereco(cliente.getEndereco());
+			// Chamar o método que contém a lógica de endereço e salvamento.
+			// Agora ele opera no objeto correto e completo.
+			salvarClienteComCep(clienteParaAtualizar);
 		}
 	}
 
