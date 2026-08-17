@@ -1,5 +1,6 @@
 package one.digitalinnovation.gof.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 public class Endereco {
 
 	@Id
+	@Column(nullable = false, length = 9)
 	private String cep;
 	private String logradouro;
 	private String complemento;
